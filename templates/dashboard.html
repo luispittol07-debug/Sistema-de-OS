@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<h2>Dashboard</h2>
+
+<div class="row mt-4">
+
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h5>Total de Clientes</h5>
+                <h2>{{ total_clientes }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h5>Ordens Abertas</h5>
+                <h2>{{ ordens_abertas }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h5>Ordens Concluídas</h5>
+                <h2>{{ ordens_concluidas }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

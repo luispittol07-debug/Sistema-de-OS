@@ -1,16 +1,17 @@
-
-<!doctype html>
+{% load static %}
+<!DOCTYPE html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <title>{% block title %}Sistema{% endblock %}</title>
+    <title>
+      {% block title %}
+        Sistema
+      {% endblock %}
+    </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="{% static 'general/css/base.css' %}" />
   </head>
@@ -19,70 +20,39 @@
     <div class="container-fluid">
       <div class="row vh-100">
         <!-- SIDEBAR -->
-        <aside
-          class="col-12 col-md-3 col-lg-2 bg-primary text-white p-4 d-flex flex-column"
-        >
-          <h5 class="text-center mb-4">Ordens de Serviço</h5>
-          <hr />
+        <aside class="col-12 col-md-3 col-lg-2 bg-primary text-white p-4 d-flex flex-column">
+          <h4 class="text-center mb-4">Ordens de Serviço</h4>
+          <hr class="border-2">
 
           {% if user.is_authenticated %}
+            <nav class="nav flex-column gap-2">
+              <a href="{% url 'dashboard' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
 
-          <nav class="nav flex-column gap-2">
-            <a
-              href="{% url 'dashboard' %}"
-              class="sidebar-link nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
-            >
-              Dashboard
-            </a>
+              <a href="{% url 'cadastro' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'cadastro' %}active{% endif %}">Cadastro</a>
 
-            <a
-              href="{% url 'cadastro' %}"
-              class="sidebar-link nav-link {% if request.resolver_match.url_name == 'cadastro' %}active{% endif %}"
-            >
-              Cadastro
-            </a>
+              <a href="{% url 'ordens' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'ordens' %}active{% endif %}">Ordens</a>
 
-            <a
-              href="{% url 'ordens' %}"
-              class="sidebar-link nav-link {% if request.resolver_match.url_name == 'ordens' %}active{% endif %}"
-            >
-              Ordens
-            </a>
+              <a href="{% url 'financeiro' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'financeiro' %}active{% endif %}">Financeiro</a>
+            </nav>
 
-            <a
-              href="{% url 'financeiro' %}"
-              class="sidebar-link nav-link {% if request.resolver_match.url_name == 'financeiro' %}active{% endif %}"
-            >
-              Financeiro
-            </a>
-          </nav>
-
-          <div class="mt-auto pt-4 small text-center">
-            Logado como:<br />
-            <strong>{{ user.username }}</strong>
-            <br /><br />
-            <a
-              href="{% url 'logout' %}"
-              class="text-white text-decoration-none"
-            >
-              Sair
-            </a>
-          </div>
-
+            <div class="mt-auto pt-4 small text-center">
+              Logado como:<br />
+              <strong>{{ user.username }}</strong>
+              <br /><br />
+              <a href="{% url 'login' %}" class="text-white text-decoration-none">Sair</a>
+            </div>
           {% else %}
-
-          <div class="mt-auto text-center">
-            <a href="{% url 'login' %}" class="btn btn-light btn-sm">
-              Fazer Login
-            </a>
-          </div>
-
+            <div class="mt-auto text-center">
+              <a href="{% url 'login' %}" class="btn btn-light btn-sm">Fazer Login</a>
+            </div>
           {% endif %}
         </aside>
 
         <!-- CONTEÚDO -->
         <main class="col-12 col-md-9 col-lg-10 p-4 overflow-auto">
-          {% block content %} {% endblock %}
+          {% block content %}
+
+          {% endblock %}
         </main>
       </div>
     </div>
