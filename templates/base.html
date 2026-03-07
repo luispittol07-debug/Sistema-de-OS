@@ -22,28 +22,24 @@
         <!-- SIDEBAR -->
         <aside class="col-12 col-md-3 col-lg-2 bg-primary text-white p-4 d-flex flex-column">
           <h4 class="text-center mb-4">Ordens de Serviço</h4>
-          <hr class="border-2">
+          <hr class="border-2" />
 
           {% if user.is_authenticated %}
             <nav class="nav flex-column gap-2">
               <a href="{% url 'dashboard' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
-
               <a href="{% url 'cadastro' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'cadastro' %}active{% endif %}">Cadastro</a>
-
+              <a href="{% url 'estoque' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'estoque' %}active{% endif %}">Estoque</a>
               <a href="{% url 'ordens' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'ordens' %}active{% endif %}">Ordens</a>
-
+              <a href="{% url 'clientes' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'clientes' %}active{% endif %}">Clientes</a>
               <a href="{% url 'financeiro' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'financeiro' %}active{% endif %}">Financeiro</a>
+              <a href="{% url 'senhas' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'senhas' %}active{% endif %}">Senhas</a>
             </nav>
 
             <div class="mt-auto pt-4 small text-center">
               Logado como:<br />
               <strong>{{ user.username }}</strong>
               <br /><br />
-              <a href="{% url 'login' %}" class="text-white text-decoration-none">Sair</a>
-            </div>
-          {% else %}
-            <div class="mt-auto text-center">
-              <a href="{% url 'login' %}" class="btn btn-light btn-sm">Fazer Login</a>
+              <a href="{% url 'login' %}" class="btn btn-outline-light">Sair</a>
             </div>
           {% endif %}
         </aside>

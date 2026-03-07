@@ -6,8 +6,20 @@ from django.contrib.auth.decorators import user_passes_test
 from .models import Cliente, OrdemServico
 
 
+@login_required
 def clientes(request):
-    return render(request, "clientes.html")
+    clientes = Cliente.objects.all()
+    return render(request, 'clientes.html', {'clientes': clientes})
+
+
+@login_required
+def senhas(request):
+    return render(request, "senhas.html")
+
+
+@login_required
+def estoque(request):
+    return render(request, "estoque.html")
 
 
 @login_required
@@ -20,6 +32,7 @@ def ordens(request):
     return render(request, "ordens.html")
 
 
+@login_required
 def is_tecnico(user):
     return user.groups.filter(name="tecnico").exists()
 
@@ -30,6 +43,7 @@ def financeiro(request):
 
 
 def login_view(request):
+    erro = None
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -43,8 +57,9 @@ def login_view(request):
                 return redirect("/admin/")
             else:
                 return redirect("dashboard")
-
-    return render(request, "login.html")
+        else:
+            erro = "Usuário não encontrado!"
+    return render(request, "login.html", {"erro": erro})
 
 
 def dashboard(request):
