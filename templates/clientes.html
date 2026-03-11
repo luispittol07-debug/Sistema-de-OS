@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Clientes</h2>
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <form method="get" class="flex-grow-1 me-2">
+      <div class="input-group">
+        <input type="text" name="busca" placeholder="Buscar cliente" class="form-control" value="{{ request.GET.busca }}" />
+
+        <button type="submit" class="btn btn-outline-primary">Buscar</button>
+      </div>
+    </form>
+
+    <a href="{% url 'novo_cliente' %}" class="btn btn-success">Novo Cliente</a>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Telefone</th>
+        <th>CPF/CNPJ</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for cliente in clientes %}
+        <tr>
+          <td>{{ cliente.nome }}</td>
+          <td>{{ cliente.email }}</td>
+          <td>{{ cliente.telefone }}</td>
+          <td>{{ cliente.cpf_cnpj }}</td>
+
+          <td >
+            <a href="{% url 'editar_cliente' cliente.id %}" class="btn btn-outline-warning btn-sm">Editar</a>
+
+            <a href="{% url 'excluir_cliente' cliente.id %}" class="btn btn-outline-danger btn-sm">Excluir</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

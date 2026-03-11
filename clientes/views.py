@@ -1,15 +1,10 @@
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import user_passes_test
 from .models import Cliente, OrdemServico
-
-
-@login_required
-def clientes(request):
-    clientes = Cliente.objects.all()
-    return render(request, 'clientes.html', {'clientes': clientes})
+from .forms import ClienteForm
+from django.db.models import Q
 
 
 @login_required
@@ -23,11 +18,6 @@ def estoque(request):
 
 
 @login_required
-def cadastro(request):
-    return render(request, "cadastro.html")
-
-
-@login_required
 def ordens(request):
     return render(request, "ordens.html")
 
@@ -37,7 +27,7 @@ def is_tecnico(user):
     return user.groups.filter(name="tecnico").exists()
 
 
-@user_passes_test(is_tecnico)
+@login_required
 def financeiro(request):
     return render(request, "financeiro.html")
 
@@ -73,5 +63,61 @@ def dashboard(request):
         "ordens_abertas": ordens_abertas,
         "ordens_concluidas": ordens_concluidas,
     }
-
     return render(request, "dashboard.html", context)
+
+
+@login_required
+def clientes(request):
+
+    busca = request.GET.get("busca")
+
+    if busca:
+        clientes = Cliente.objects.filter(
+            Q(nome__icontains=busca)
+            | Q(telefone__icontains=busca)
+            | Q(cpf_cnpj__icontains=busca)
+        )
+    else:
+        clientes = Cliente.objects.all()
+
+    context = {"clientes": clientes}
+
+    return render(request, "clientes.html", context)
+
+
+def novo_cliente(request):
+
+    if request.method == "POST":
+        form = ClienteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("clientes")
+
+    else:
+        form = ClienteForm()
+
+    return render(request, "cliente_form.html", {"form": form})
+
+
+def editar_cliente(request, id):
+
+    cliente = get_object_or_404(Cliente, id=id)
+
+    if request.method == "POST":
+        form = ClienteForm(request.POST, instance=cliente)
+        if form.is_valid():
+            form.save()
+            return redirect("clientes")
+
+    else:
+        form = ClienteForm(instance=cliente)
+
+    return render(request, "cliente_form.html", {"form": form})
+
+
+def excluir_cliente(request, id):
+
+    cliente = get_object_or_404(Cliente, id=id)
+    cliente.delete()
+
+    return redirect("clientes")

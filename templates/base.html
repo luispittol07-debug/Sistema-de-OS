@@ -27,7 +27,6 @@
           {% if user.is_authenticated %}
             <nav class="nav flex-column gap-2">
               <a href="{% url 'dashboard' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
-              <a href="{% url 'cadastro' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'cadastro' %}active{% endif %}">Cadastro</a>
               <a href="{% url 'estoque' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'estoque' %}active{% endif %}">Estoque</a>
               <a href="{% url 'ordens' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'ordens' %}active{% endif %}">Ordens</a>
               <a href="{% url 'clientes' %}" class="sidebar-link nav-link {% if request.resolver_match.url_name == 'clientes' %}active{% endif %}">Clientes</a>

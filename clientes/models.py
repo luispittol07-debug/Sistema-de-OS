@@ -6,7 +6,7 @@ class Cliente(models.Model):
     nome = models.CharField(max_length=100)
     email = models.EmailField()
     telefone = models.CharField(max_length=20)
-    cpf_cnpj = models.CharField(max_length=14)
+    cpf_cnpj = models.CharField(max_length=18)
 
     def __str__(self):
         return self.nome

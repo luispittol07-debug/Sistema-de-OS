@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container vh-100 d-flex justify-content-center align-items-center mb-5">
+    <div class="card shadow w-100" style="max-width: 600px;">
+      <div class="card-header bg-primary text-white text-center">
+        <h4 class="mb-0">Cadastro de Cliente</h4>
+      </div>
+
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label class="form-label">Nome</label>
+            {{ form.nome }}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            {{ form.email }}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Telefone</label>
+            {{ form.telefone }}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">CPF / CNPJ</label>
+            {{ form.cpf_cnpj }}
+          </div>
+
+          <div class="d-flex justify-content-center gap-3">
+            <button type="submit" class="btn btn-success px-4">Salvar</button>
+
+            <a href="{% url 'clientes' %}" class="btn btn-danger px-4">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/imask"></script>
+  <script>
+    IMask(document.getElementById('telefone'), {
+      mask: '(00) 00000-0000'
+    })
+  </script>
+  <script>
+    var campo = document.getElementById('cpf_cnpj')
+    
+    var mascara = IMask(campo, {
+      mask: [
+        {
+          mask: '000.000.000-00',
+          maxLength: 11
+        },
+        {
+          mask: '00.000.000/0000-00'
+        }
+      ],
+    
+      dispatch: function (appended, dynamicMasked) {
+        var numero = (dynamicMasked.value + appended).replace(/\D/g, '')
+    
+        return numero.length <= 11 ? dynamicMasked.compiledMasks[0] : dynamicMasked.compiledMasks[1]
+      }
+    })
+  </script>
+{% endblock %}
